@@ -1,0 +1,144 @@
+body {
+    background-color: #97E0F5;
+
+    font-family: 'Abel', sans-serif;
+}
+
+#wrapper {
+    background-color: #F3FCFE;
+
+    border: 3px solid #00F44A;
+
+    border-radius: 25px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    padding-bottom: 0px;
+
+    width: 1024px;
+    height: 100%;
+}
+
+header {
+    background-color: #B9FC57;
+
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+
+    border-bottom: solid 3px #00F44A;
+
+    color: #000000;
+    text-shadow: -3px 0 white, 0 3px white, 3px 0 white, 0 -3px white;
+
+    font-family: 'Poiret One', cursive;
+    font-size: 30px;
+
+    height: 100px;
+
+    padding: 10px;
+    padding-left: 50px;
+}
+
+nav {
+    background-color: #54F685;
+
+    border-bottom: 3px solid #00F44A;
+
+    width: 1024px;
+    height: 50px;
+}
+
+nav ul {
+    list-style-type: none;
+
+    margin: auto;
+    padding: 0px;
+
+    overflow: hidden;
+
+    width:500px;
+    height: 50px;
+}
+
+nav ul li {
+    float: left;
+    display: inline-block;
+    margin: auto;
+
+    border: 2px solid #1EC2F1;
+
+    height: 47px;
+    line-height: 47px;
+}
+
+nav ul li a:link, nav ul li a:visited {
+    background-color: #96F8B4;
+
+    display: block;
+    width: 120px;
+
+    font-size: 20px;
+
+    text-align: center;
+    text-decoration: none;
+}
+
+nav ul li a:hover {
+    background-color: #01BBEF;
+}
+
+section {
+    padding: 10px;
+
+    font-size: 20px;
+}
+
+section #profile {
+    width: 300px;
+    height: 533px;
+
+    float: right;
+}
+
+section .posts {
+    list-style-type: none;
+    width: 964px;
+    overflow: hidden;
+
+    padding: 20px;
+}
+
+section .post {
+    width: 100%;
+
+    margin-bottom: 20px;
+}
+
+section .post-title {
+    font-size: 28px;
+}
+
+section .separator {
+}
+
+footer {
+    background-color: #54F685;
+
+    border-top: 3px solid #00F44A;
+
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+
+    clear: both;
+
+    height: 50px;
+    line-height: 46px;
+}
+
+footer p {
+    margin: 0px;
+
+    font-size: 18px;
+    text-align: center;
+}
