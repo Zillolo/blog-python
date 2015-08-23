@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}
+    {% endif %}
+    <form action="{{url_for('addPost')}}" method="post">
+        Title:
+        <br />
+        <input type="text" name="title">
+        <br />
+        Author:
+        <br />
+        <input type="text" name="author">
+        <br />
+        Text:
+        <br />
+        <textarea name="content" rows="10" cols="50"></textarea>
+        <br />
+        <br />
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}
