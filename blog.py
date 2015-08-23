@@ -10,21 +10,15 @@ app.config['SECRET_KEY'] = "Gaggn"
 
 @app.route("/")
 def showPosts():
-    # Initialize a connection to the MongoDB.
-    try:
-        conn = pymongo.MongoClient('localhost', 27017)
-        print("Connection to MongoDB was successful.")
-    except pymongo.errors.ConnectionFailure as e:
-        print("Could not connect to MongoDB: %s" % e)
-        return # Well fuck.
-    db = conn.blog
-    collection = db.posts
-
-    # Read all posts from the database.
-    posts = collection.find()
-
     # Render template with posts.
-    return render_template("posts.html", posts=posts)
+    return render_template("posts.html", posts=getAllPosts())
+
+@app.route("/admin")
+def showAdmin():
+    if session.get('loggedIn') == True:
+        return render_template("admin.html", posts=getAllPosts())
+    flash('You are not authorized to access this site.')
+    return redirect(url_for('showPosts'))
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -45,6 +39,21 @@ def logout():
     session.pop('loggedIn', None)
     flash('You were logged out.')
     return redirect(url_for("showPosts"))
+
+def getAllPosts():
+    # Initialize a connection to the MongoDB.
+    try:
+        conn = pymongo.MongoClient('localhost', 27017)
+        print("Connection to MongoDB was successful.")
+    except pymongo.errors.ConnectionFailure as e:
+        print("Could not connect to MongoDB: %s" % e)
+        return # Well fuck.
+    db = conn.blog
+    collection = db.posts
+
+    # Read all posts from the database.
+    posts = collection.find()
+    return posts
 
 if __name__ == "__main__":
     app.run()

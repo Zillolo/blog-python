@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block content %}
+    <a href="/admin/posts/add">Add a new post</a>
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Action</th>
+        {% for post in posts %}
+            <tr>
+                <td>{{post.title}}</td>
+                <td>{{post.author}}</td>
+                <td>Modify | Delete</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
