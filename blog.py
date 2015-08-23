@@ -28,6 +28,8 @@ def showPosts():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    if session.get('loggedIn') == True:
+            return redirect(url_for('showPosts'))
     error = None
     if request.method == 'POST':
         if request.form['username'] != "Test" or request.form['password'] != "Password":
