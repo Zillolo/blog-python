@@ -2,7 +2,7 @@ from bson.objectid import ObjectId
 from flask import Blueprint, session, flash, redirect, url_for, render_template, request
 
 import pymongo
-import database
+from util import database
 
 admin = Blueprint('admin', __name__, template_folder='templates')
 

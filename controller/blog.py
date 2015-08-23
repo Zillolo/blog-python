@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template
-import database
+from util import database
 
 blog = Blueprint('blog', __name__, template_folder='templates')
 
