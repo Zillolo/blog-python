@@ -95,6 +95,26 @@ def modifyPost():
         post = {'title' : request.form['title'], 'author' : request.form['author'], 'content' : request.form['content']}
         return render_template('posts/modify.html', post=post, error=error)
 
+@app.route("/admin/posts/delete")
+def deletePost():
+    if session.get('loggedIn') != True:
+        flash('You are not authorized to access this site.')
+        return redirect(url_for('showPosts'))
+
+    # Initialize a connection to the MongoDB.
+    try:
+        conn = pymongo.MongoClient('localhost', 27017)
+        print("Connection to MongoDB was successful.")
+    except pymongo.errors.ConnectionFailure as e:
+        print("Could not connect to MongoDB: %s" % e)
+        return # Well fuck.
+    db = conn.blog
+    collection = db.posts
+
+    collection.remove({'_id' : ObjectId(request.args.get('id', ''))})
+    flash('The post was successfully removed.')
+    return redirect(url_for('showAdmin'))
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if session.get('loggedIn') == True:
