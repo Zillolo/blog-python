@@ -5,7 +5,7 @@ body {
 }
 
 #wrapper {
-    background-color: #F3FCFE;
+    background-color: #E1FEB7;
 
     border: 3px solid #00F44A;
 
@@ -94,13 +94,6 @@ section {
     font-size: 20px;
 }
 
-section #profile {
-    width: 300px;
-    height: 533px;
-
-    float: right;
-}
-
 section .posts {
     list-style-type: none;
     width: 964px;
@@ -110,13 +103,30 @@ section .posts {
 }
 
 section .post {
+    background-color: #E1FEB7;
+
     width: 100%;
+
 
     margin-bottom: 20px;
 }
 
 section .post-title {
     font-size: 28px;
+
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-bottom: 5px;
+}
+
+section .post-author {
+    margin-top: 0px;
+    margin-left: 20px;
+    margin-bottom: 5px;
+}
+
+section .post-content {
+    margin-left: 20px;
 }
 
 section .separator {

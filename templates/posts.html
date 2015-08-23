@@ -4,6 +4,8 @@
         {% for post in posts %}
             <li class="post">
                 <h2 class="post-title">{{ post.title }}</h2>
+                <p class="post-author">Author: {{ post.author }}</p>
+                <hr class="separator"/>
                 <p class="post-content">{{post.content}}</p>
                 <hr class="separator"/>
             <li/>
