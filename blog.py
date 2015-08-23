@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, session, \
     flash
 
 import pymongo
+from bson.objectid import ObjectId
 
 # Create flask application
 app = Flask(__name__)
@@ -49,6 +50,50 @@ def addPost():
             return render_template('posts/new.html', error=None)
     flash('You are not authorized to access this site.')
     return redirect(url_for('showPosts'))
+
+@app.route("/admin/posts/modify", methods = ['GET', 'POST'])
+def modifyPost():
+    if session.get('loggedIn') != True:
+        flash('You are not authorized to access this site.')
+        return redirect(url_for('showPosts'))
+
+    # Initialize a connection to the MongoDB.
+    try:
+        conn = pymongo.MongoClient('localhost', 27017)
+        print("Connection to MongoDB was successful.")
+    except pymongo.errors.ConnectionFailure as e:
+        print("Could not connect to MongoDB: %s" % e)
+        return # Well fuck.
+    db = conn.blog
+    collection = db.posts
+
+    if request.method == 'GET':
+        print('GET called.')
+        print(request.args.get('id'))
+        post = collection.find_one({'_id' : ObjectId(request.args.get('id', ''))})
+        if post == None:
+            print('No post with id.')
+            flash('No post with the specified id found.')
+            return redirect(url_for('showAdmin'))
+        print('Show dat template.')
+        return render_template('posts/modify.html', post=post, error=None)
+    else:
+        print('POST called.')
+        error = None
+        if not request.form['title']:
+            error = "The title field must be filled."
+        elif not request.form['author']:
+            error = "The author field must be filled."
+        else:
+            print("Success.")
+            post = {'title' : request.form['title'], 'author' : request.form['author'], 'content' : request.form['content']}
+            collection.update_one({'_id' : ObjectId(request.form['id'])}, { '$set' : post}, upsert = False)
+            flash('The post was successfully changed.')
+            print("Redirecting now.")
+            return redirect(url_for('showPosts'))
+        print("Something went wrong :/")
+        post = {'title' : request.form['title'], 'author' : request.form['author'], 'content' : request.form['content']}
+        return render_template('posts/modify.html', post=post, error=error)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

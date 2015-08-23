@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}
+    {% endif %}
+    <form action="{{url_for('modifyPost')}}" method="post">
+        Title:
+        <br />
+        <input type="text" name="title" value="{{post.title}}">
+        <br />
+        Author:
+        <br />
+        <input type="text" name="author" value="{{post.author}}">
+        <br />
+        Text:
+        <br />
+        <textarea name="content" rows="10" cols="50">{{post.content}}</textarea>
+        <br />
+        <br />
+        <input type="submit" value="Submit">
+        <input type="hidden" name="id" value="{{ post._id }}">
+    </form>
+{% endblock %}

@@ -10,7 +10,7 @@
             <tr>
                 <td>{{post.title}}</td>
                 <td>{{post.author}}</td>
-                <td>Modify | Delete</td>
+                <td><a href="/admin/posts/modify?id={{post._id}}">Modify</a> | <a href="/admin/posts/delete?id={{post._id}}">Delete</a></td>
             </tr>
         {% endfor %}
     </table>
