@@ -3,7 +3,7 @@
     {% if error %}
         <p class="error"><strong>Error:</strong> {{ error }}
     {% endif %}
-    <form action="{{url_for('addPost')}}" method="post">
+    <form action="{{url_for('admin.addPost')}}" method="post">
         Title:
         <br />
         <input type="text" name="title">
