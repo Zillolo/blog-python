@@ -129,7 +129,17 @@ section .post-content {
     margin-left: 20px;
 }
 
-section .separator {
+section #login {
+    background-color: #B9FC57;
+
+    border: 3px solid #00F44A;
+    border-radius: 20px;
+
+    width: 400px;
+
+    margin: auto;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 footer {
