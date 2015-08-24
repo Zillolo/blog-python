@@ -70,7 +70,7 @@ def addPost():
     else:
         # If the form is not yet submitted, show the form and show no errors.
         return render_template('posts/new.html', error=None)
-        
+
 """
 Modifies a post.
 """
@@ -81,7 +81,7 @@ def modifyPost():
         return redirect(url_for('blog.default'))
 
 
-    db = database.getDbConn()
+    db = database.getDbConn('blog')
     collection = db.posts
 
     if request.method == 'GET':
@@ -91,7 +91,7 @@ def modifyPost():
         if post == None:
             print('No post with id.')
             flash('No post with the specified id found.')
-            return redirect(url_for('admin.showAdmin'))
+            return redirect(url_for('admin.default'))
         print('Show dat template.')
         return render_template('posts/modify.html', post=post, error=None)
     else:
@@ -122,7 +122,7 @@ def deletePost():
         return redirect(url_for('showPosts'))
 
     # Get a db connection.
-    db = database.getDbConn()
+    db = database.getDbConn('blog')
     collection = db.posts
 
     # Remove the post with the id given as parameter from the collection.
@@ -130,4 +130,4 @@ def deletePost():
 
     # Flash a message of success and redirect to the admin panel.
     flash('The post was successfully removed.')
-    return redirect(url_for('admin.showAdmin'))
+    return redirect(url_for('admin.default'))
