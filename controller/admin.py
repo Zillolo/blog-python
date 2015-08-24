@@ -76,47 +76,52 @@ Modifies a post.
 """
 @admin.route('/admin/posts/modify', methods = ['GET', 'POST'])
 def modifyPost():
+    # If the user is not logged in show a message and redirect him to a non-admin site.
     if not controller.user.isAuthorized():
         flash('You are not authorized to access this site.')
         return redirect(url_for('blog.default'))
 
-
+    # Request a database connection.
     db = database.getDbConn('blog')
+    if db == None:
+        flash('A connection to the database could not be established.')
+        return redirect(url_for('admin.default'))
     collection = db.posts
 
-    if request.method == 'GET':
-        print('GET called.')
-        print(request.args.get('id'))
+    # If the form was already submitted, validate it and then insert it.
+    if request.method == 'POST':
+        error = ""
+        if not request.form['title']:
+            error += "The title field may not be empty."
+        if not request.form['author']:
+            error += "The author field may not be empty."
+        if not request.form['content']:
+            error += "The content field may not be empty."
+
+        if error:
+            post = {'title' : request.form['title'], 'author' : request.form['author'], 'content' : request.form['content']}
+            return render_template('posts/modify.html', post=post, error=error)
+
+        # Insert the modified post into the collection.
+        post = {'title' : request.form['title'], 'author' : request.form['author'], 'content' : request.form['content']}
+        collection.update_one({'_id' : ObjectId(request.form['id'])}, { '$set' : post}, upsert = False)
+
+        flash('The post was successfully changed.')
+        return redirect(url_for('admin.default'))
+    else:
+        # If the form was not yet submitted, retrieve the original post and fill the form with it.
         post = collection.find_one({'_id' : ObjectId(request.args.get('id', ''))})
         if post == None:
-            print('No post with id.')
             flash('No post with the specified id found.')
             return redirect(url_for('admin.default'))
-        print('Show dat template.')
         return render_template('posts/modify.html', post=post, error=None)
-    else:
-        print('POST called.')
-        error = None
-        if not request.form['title']:
-            error = "The title field must be filled."
-        elif not request.form['author']:
-            error = "The author field must be filled."
-        else:
-            print("Success.")
-            post = {'title' : request.form['title'], 'author' : request.form['author'], 'content' : request.form['content']}
-            collection.update_one({'_id' : ObjectId(request.form['id'])}, { '$set' : post}, upsert = False)
-            flash('The post was successfully changed.')
-            print("Redirecting now.")
-            return redirect(url_for('admin.default'))
-        print("Something went wrong :/")
-        post = {'title' : request.form['title'], 'author' : request.form['author'], 'content' : request.form['content']}
-        return render_template('posts/modify.html', post=post, error=error)
 
 """
 Deletes a post.
 """
 @admin.route('/admin/posts/delete')
 def deletePost():
+    # If the user is not logged in show a message and redirect him to a non-admin site.
     if not controller.user.isAuthorized():
         flash('You are not authorized to access this site.')
         return redirect(url_for('showPosts'))
