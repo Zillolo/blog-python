@@ -1,12 +1,16 @@
 import pymongo
 
-def getDbConn():
+"""
+Request a database connection. If the connection is successful a reference to
+the database 'db' will be returned.
+Optionally a host and a port can be specified. The default parameters of these are
+'localhost' and 27017 respectively.
+"""
+def getDbConn(db, host = 'localhost', port = 27017):
     # Initialize a connection to the MongoDB.
     try:
-        conn = pymongo.MongoClient('localhost', 27017)
-        print("Connection to MongoDB was successful.")
+        conn = pymongo.MongoClient(host, port)
     except pymongo.errors.ConnectionFailure as e:
-        print("Could not connect to MongoDB: %s" % e)
-        return # Well fuck.
-    db = conn.blog
-    return db
+        return None
+    dbc = conn.db
+    return dbc

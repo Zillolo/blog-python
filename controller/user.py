@@ -4,8 +4,8 @@ user = Blueprint('user', __name__, template_folder='templates')
 
 @user.route('/login', methods = ['GET', 'POST'])
 def login():
-    if session.get('loggedIn') == True:
-            return redirect(url_for('blog.showPosts'))
+    if isAuthorized():
+            return redirect(url_for('blog.default'))
     error = None
     if request.method == 'POST':
         if request.form['username'] != "Test" or request.form['password'] != "Password":
@@ -13,11 +13,14 @@ def login():
         else:
             session['loggedIn'] = True
             flash('You were logged in.')
-            return redirect(url_for('blog.showPosts'))
+            return redirect(url_for('blog.default'))
     return render_template('login.html', error=error)
 
 @user.route('/logout')
 def logout():
     session.pop('loggedIn', None)
     flash('You were logged out.')
-    return redirect(url_for("blog.showPosts"))
+    return redirect(url_for("blog.default"))
+
+def isAuthorized():
+    return session.get('loggedIn')

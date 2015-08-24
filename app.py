@@ -8,7 +8,7 @@ import controller.user
 # Create flask application
 app = Flask(__name__)
 app.config['DEBUG'] = True
-app.config['SECRET_KEY'] = "Gaggn"
+app.config['SECRET_KEY'] = "Secret"
 
 app.register_blueprint(controller.admin.admin)
 app.register_blueprint(controller.blog.blog)
