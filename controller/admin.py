@@ -107,7 +107,7 @@ def modifyPost():
             collection.update_one({'_id' : ObjectId(request.form['id'])}, { '$set' : post}, upsert = False)
             flash('The post was successfully changed.')
             print("Redirecting now.")
-            return redirect(url_for('blog.default'))
+            return redirect(url_for('admin.default'))
         print("Something went wrong :/")
         post = {'title' : request.form['title'], 'author' : request.form['author'], 'content' : request.form['content']}
         return render_template('posts/modify.html', post=post, error=error)
