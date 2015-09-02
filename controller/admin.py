@@ -21,7 +21,7 @@ TODO: Add documentation
 @admin.route("/admin/posts/view")
 def showPosts():
     # If the user is not logged in show a message and redirect him to a non-admin site.
-    if not controller.user.isAuthorized():
+    if not controller.user.isLoggedIn():
         flash('You are not authorized to access this site.')
         return redirect(url_for('blog.default'))
 
@@ -34,7 +34,7 @@ Adds a post.
 @admin.route('/admin/posts/add', methods = ['GET', 'POST'])
 def addPost():
     # If the user is not logged in show a message and redirect him to a non-admin site.
-    if not controller.user.isAuthorized():
+    if not controller.user.isLoggedIn():
         flash('You are not authorized to access this site.')
         return redirect(url_for('blog.default'))
 
@@ -77,7 +77,7 @@ Modifies a post.
 @admin.route('/admin/posts/modify', methods = ['GET', 'POST'])
 def modifyPost():
     # If the user is not logged in show a message and redirect him to a non-admin site.
-    if not controller.user.isAuthorized():
+    if not controller.user.isLoggedIn():
         flash('You are not authorized to access this site.')
         return redirect(url_for('blog.default'))
 
@@ -122,7 +122,7 @@ Deletes a post.
 @admin.route('/admin/posts/delete')
 def deletePost():
     # If the user is not logged in show a message and redirect him to a non-admin site.
-    if not controller.user.isAuthorized():
+    if not controller.user.isLoggedIn():
         flash('You are not authorized to access this site.')
         return redirect(url_for('showPosts'))
 

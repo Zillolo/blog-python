@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <!--[if lt IE 9]>
@@ -6,52 +6,85 @@
 <![endif]-->
 
 <head>
-    <meta charset="UTF-8">
-    <link href="{{ url_for('static', filename='css/stylesheet.css') }}" rel="stylesheet" type="text/css" />
-    <link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
-    <title>Anna Murer's Blog</title>
+    <meta charset="utf-8">
 
-    <script type="text/javascript" src="{{url_for('static', filename='js/form.js')}}"></script>
+    <link href="{{ url_for('static', filename='css/stylesheet.css') }}"
+        rel="stylesheet" type="text/css" />
+    <link href='http://fonts.googleapis.com/css?family=Damion'
+        rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Abel'
+        rel='stylesheet' type='text/css'>
+
+    <title></title>
 </head>
 
 <body>
-    <div id="wrapper">
-        <header>
-            <h1>Anna Murer's Blog</h1>
-        </header>
-
+    <header>
+        <div id="logo">
+            <p>Anna Murer</p>
+        </div>
+        {% if not session.get('loggedIn') %}
+            <div id="userpanel" class="notloggedin">
+                <a href="/login">Login</a> | <a href="/register">Register</a>
+            </div>
+        {% else %}
+            <div id="userpanel" class="loggedin"
+                <p>Welcome, {{ session.get('username') }}</p>
+                <img src="{{ session.get('profilePicPath')}}" class="profile-pic">
+                <a href="/logout">Logout</a>
+            </div>
+        {% endif %}
         <nav>
             <ul>
-                <li><a href="/">Blog</a></li>
-                <li><a href="">Who am I?</a></li>
-                <li><a href="">Photos</a></li>
-                {% if session.get('loggedIn') == True %}
-                    <li><a href="/admin">Admin</a></li>
-                    <li><a href="/logout">Logout</a></li>
-                {% else %}
-                    <li><a href="/login">Login</a></li>
-                {% endif %}
+                <li><a href="/blog" class="home-menu-icon">Home</a></li>
+                <li><a href="">Test</a></li>
+                <li><a href="">Test</a></li>
+                <li><a href="">Looooooooooong</a></li>
+                <li><a href="">Test</a></li>
             </ul>
         </nav>
+    </header>
 
-        <section>
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li>{{messages}}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            {% endwith %}
-            {% block content %}
-            {% endblock %}
-        </section>
+    <a name="top"></a>
 
-        <footer>
-            <p>&copy; 2015 Alex Egger. All rights reserved.</p>
-        </footer>
-    </div>
+    <section id="message">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    </section>
+
+    <section id="content">
+        {% block content %}
+        {% endblock %}
+    </section>
+
+    <section id="sidebar">
+        {% block sidebar %}
+        {% endblock %}
+    </section>
+
+    <footer>
+        <p>&copy; Alex Egger 2015. All rights reserved.</p>
+        <a href="#top">Back to top</a>
+    </footer>
 </body>
 </html>
+
+{% macro renderField(field) %}
+    <dt>{{ field.label }}
+    <dd>{{ field(**kwargs)|safe }}
+    {% if field.errors %}
+        <ul class="errors">
+            {% for error in field.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    </dd>
+{% endmacro %}

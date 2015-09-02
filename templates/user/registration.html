@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    {% from "layout.html" import renderField %}
+    <form method="post" action="/user/register">
+        <dl>
+            {{ renderField(form.username) }}
+            {{ renderField(form.email) }}
+            {{ renderField(form.password) }}
+            {{ renderField(form.confirmPassword) }}
+            {{ renderField(form.firstName) }}
+            {{ renderField(form.lastName) }}
+            {{ renderField(form.acceptTOS) }}
+        </dl>
+        <p><input type="submit" value="Register">
+    </form>
+{% endblock %}

@@ -9,14 +9,23 @@ class User:
         self.email = email
         self.password = password
 
+    """
+    Adds the user to the specified collection.
+    Also hashes the users password using SHA224.
+    """
     def addTo(self, collection):
         if collection == None:
             return False
 
         user = self.toJSON()
-        user['password'] = hashlib.sha224(self.password).hexdigest()
+        user['password'] = hashlib.sha224(self.password.encode('utf-8')).hexdigest()
 
-        collection.insert_one(user)
+        print(user)
+
+        ret = collection.insert_one(user)
+
+        print(ret.inserted_id)
+
         return True
 
     """

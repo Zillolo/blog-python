@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+<head>
+    <meta charset="UTF-8">
+    <link href="{{ url_for('static', filename='css/stylesheet.css') }}" rel="stylesheet" type="text/css" />
+    <link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
+    <title>Anna Murer's Blog</title>
+
+    <script type="text/javascript" src="{{url_for('static', filename='js/form.js')}}"></script>
+</head>
+
+<body>
+    <div id="wrapper">
+        <header>
+            <h1>Anna Murer's Blog</h1>
+        </header>
+
+        <nav>
+            <ul>
+                <li><a href="/">Blog</a></li>
+                <li><a href="">Who am I?</a></li>
+                <li><a href="">Photos</a></li>
+                {% if session.get('loggedIn') == True %}
+                    <li><a href="/admin">Admin</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                {% else %}
+                    <li><a href="/login">Login</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+
+        <section>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li>{{messages}}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+            {% block content %}
+            {% endblock %}
+        </section>
+
+        <footer>
+            <p>&copy; 2015 Alex Egger. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>

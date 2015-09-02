@@ -1,4 +1,4 @@
-from wtforms import Form, TextField, PasswordField, validators
+from wtforms import Form, TextField, PasswordField, BooleanField, validators
 
 class RegistrationForm(Form):
 
@@ -10,8 +10,8 @@ class RegistrationForm(Form):
     username = TextField('Username', [validators.Required(),
         validators.Length(min=4, max=25)])
     email = TextField('Email Address', [validators.Required(),
-        validators.Length(min=6, max=60)],
-        validators.Email(message="Invalid email address."))
+        validators.Length(min=6, max=60),
+        validators.Email(message="Invalid email address.")])
     password = PasswordField('Password', [validators.Required(),
         validators.EqualTo('confirmPassword', message = 'Passwords must match.'),
         validators.Length(min=6, max=40)])

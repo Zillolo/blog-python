@@ -1,7 +1,6 @@
 from flask import Blueprint, session, redirect, url_for, request, render_template, flash
 
-from model import form
-from model import user
+from model import forms, userModel
 
 from util import database
 
@@ -9,10 +8,22 @@ user = Blueprint('user', __name__, template_folder='templates')
 
 @user.route('/user')
 def default():
+    return redirect(url_for('blog.default'))
+
+@user.route('/user/profile')
+def showProfile():
+    pass
+
+@user.route('/user/edit')
+def editUser():
+    pass
+
+@user.route('/user/remove')
+def removeUser():
     pass
 
 @user.route('/user/register', methods = ['GET', 'POST'])
-def register():
+def registerUser():
     # Check if the user is already logged in. In that case redirect him to the
     # default page for the user module.
     if isLoggedIn():
@@ -22,20 +33,21 @@ def register():
     form = forms.RegistrationForm(request.form)
     if request.method == 'POST':
         if form.validate():
-            user = User(form.firstName.data, form.lastName.data, form.username.data,
+            userData = userModel.User(form.firstName.data, form.lastName.data, form.username.data,
              form.email.data, form.password.data)
 
             db = database.getDbConn('blog')
-            user.addTo(db.users)
+            userData.addTo(db.users) #TODO: Check return value for success.
+
 
             flash('You have been successfully registered.')
-            return redirect(url_for('user.login'))
+            return redirect(url_for('user.loginUser'))
 
     # If the form was not yet submitted or was not valid, show the form to the user.
-    return render_template('user/registration.html')
+    return render_template('user/registration.html', form=form)
 
 @user.route('/user/login', methods = ['GET', 'POST'])
-def login():
+def loginUser():
     if isLoggedIn():
             return redirect(url_for('blog.default'))
     error = None
@@ -51,7 +63,7 @@ def login():
     return render_template('login.html', error=error)
 
 @user.route('/user/logout')
-def logout():
+def logoutUser():
     session.pop('loggedIn', None)
     session.pop('username', None)
     session.pop('profilePicPath', None)
